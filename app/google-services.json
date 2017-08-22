@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "689747539038",
+    "firebase_url": "https://picadito-ed934.firebaseio.com",
+    "project_id": "picadito-ed934",
+    "storage_bucket": "picadito-ed934.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689747539038:android:25d2d9ff66b70e61",
+        "android_client_info": {
+          "package_name": "com.picadito.picadito"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "689747539038-ag8283e354mcj3b1hlan3rck3gidlrn1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.picadito.picadito",
+            "certificate_hash": "3a30af5f7af6c3dd4e80553b5ccd41f0647f2548"
+          }
+        },
+        {
+          "client_id": "689747539038-031dcp2p83ho0h6aplpvd8601b412g8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByGsDNTu2ZOOqrk_Za-l1mz1mIZV_7y2k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "689747539038-031dcp2p83ho0h6aplpvd8601b412g8h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
