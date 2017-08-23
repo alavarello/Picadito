@@ -33,6 +33,7 @@ import com.picadito.picadito.Activities.MainActivity;
 import com.picadito.picadito.Activities.NotificationsContainerActivity;
 import com.picadito.picadito.Activities.SettingsActivity;
 import com.picadito.picadito.Activities.UserMatchesActivity;
+import com.picadito.picadito.Model.ImageLoader;
 import com.picadito.picadito.R;
 
 import java.io.IOException;
@@ -227,7 +228,7 @@ public class UserFragment extends Fragment {
         }
         userNameDrawer.setText(((MainActivity) getActivity()).getUserGUI().getUserName());
         profileNameTextDrawer.setText(((MainActivity) getActivity()).getUserGUI().getName());
-       //TODO //profile picture
+        new ImageLoader(profilePictureDrawer).execute(((MainActivity) getActivity()).getUserGUI().getUrlProfilePicture());;
 
 
     }

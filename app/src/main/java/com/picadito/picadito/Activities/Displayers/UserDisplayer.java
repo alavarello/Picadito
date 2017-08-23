@@ -1,11 +1,14 @@
 package com.picadito.picadito.Activities.Displayers;
 
+import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.picadito.picadito.Activities.Fragments.UserFragment;
+import com.picadito.picadito.Activities.MainActivity;
 import com.picadito.picadito.GUI.UserGUI;
+import com.picadito.picadito.Model.ImageLoader;
 import com.picadito.picadito.R;
 
 /**
@@ -30,6 +33,6 @@ public class UserDisplayer {
     public void displayUser() {
         profileNameText.setText(userGUI.getName());
         statusText.setText(userGUI.getStatus());
-        //TODO profilePicture
+         new ImageLoader(profilePicture).execute(userGUI.getUrlProfilePicture());
     }
 }

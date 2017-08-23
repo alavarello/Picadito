@@ -186,7 +186,11 @@ public class LoginActivity extends AppCompatActivity  {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if(firebaseUser != null){
-                    user = new User("Agus", "idede", "ocupado", null);
+                    try {
+                        user = new User(firebaseUser.getDisplayName(), "idede", "ocupado", new URL(firebaseUser.getPhotoUrl().toString()) );
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("user", (Serializable) user);
                     startActivity(intent);
@@ -272,7 +276,13 @@ public class LoginActivity extends AppCompatActivity  {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     FirebaseUser userFireBase = firebaseAuth.getCurrentUser();
-                    user = new User(userFireBase.getDisplayName() , "hola", "ocupado", profilePicture);
+                    try {
+                        user = new User(userFireBase.getDisplayName() , "hola", "ocupado", new URL(userFireBase.getPhotoUrl().toString()));
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                        System.out.println("Erro de url2");
+
+                    }
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("user", (Serializable) user);
                     startActivity(intent);
