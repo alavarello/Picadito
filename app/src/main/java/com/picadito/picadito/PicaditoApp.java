@@ -3,7 +3,6 @@ package com.picadito.picadito;
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
-import android.support.multidex.MultiDexApplication;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -12,7 +11,7 @@ import com.facebook.appevents.AppEventsLogger;
  * Created by Agustin Lavarello on 8/16/2017.
  */
 
-public class PicaditoApp extends MultiDexApplication {
+public class PicaditoApp extends Application {
 
     private static PicaditoApp mainApplication;
 
@@ -20,18 +19,12 @@ public class PicaditoApp extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
-        mainApplication = this;
+
     }
 
     @Override
-    protected void attachBaseContext(Context context) {
-        super.attachBaseContext(context);
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
         MultiDex.install(this);
-    }
-
-
-    public static synchronized PicaditoApp getInstance() {
-        return mainApplication;
     }
 }

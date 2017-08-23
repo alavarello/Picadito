@@ -288,7 +288,7 @@ public class LoginActivity extends AppCompatActivity  {
     protected void onStart() {
         super.onStart();
         firebaseAuth.addAuthStateListener(authStateListener);
-        checkGooglePlayServices();
+        //checkGooglePlayServices();
 
     }
 
