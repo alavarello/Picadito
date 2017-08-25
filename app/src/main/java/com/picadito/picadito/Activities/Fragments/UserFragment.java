@@ -35,6 +35,7 @@ import com.picadito.picadito.Activities.SettingsActivity;
 import com.picadito.picadito.Activities.UserMatchesActivity;
 import com.picadito.picadito.Model.ImageLoader;
 import com.picadito.picadito.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -194,6 +195,7 @@ public class UserFragment extends Fragment {
 
         acoountManagerDrawer.getLayoutParams().height = (int) (height*0.1);
 
+
         //seteo lo que dicen las cosas
 
         displayContent();
@@ -202,33 +204,13 @@ public class UserFragment extends Fragment {
         return view;
     }
 
-    public static Bitmap textAsBitmap(String text, float textSize, int textColor) {
-        Paint paint = new Paint();
-        paint.setTextSize(textSize);
-        paint.setColor(textColor);
-        paint.setTextAlign(Paint.Align.LEFT);
-        float baseline = -paint.ascent(); // ascent() is negative
-        int width = (int) (paint.measureText(text) + 0.0f); // round
-        int height = (int) (baseline + paint.descent() + 0.0f);
-        Bitmap image = Bitmap.createBitmap(1, 1, Bitmap.Config.ALPHA_8);
-
-
-        Canvas canvas = new Canvas(image);
-        canvas.drawText(text, 0, baseline, paint);
-        return image;
-    }
 
     public void displayContent()  {
         UserDisplayer dislplayUserContent = new UserDisplayer(mainActivity.getUserGUI(), this);
         dislplayUserContent.displayUser();
-        if(mainActivity.getUserGUI().getNewNotifications().size() == 0){
-           //TODO
-        }else {
-            //TODO
-        }
         userNameDrawer.setText(((MainActivity) getActivity()).getUserGUI().getUserName());
         profileNameTextDrawer.setText(((MainActivity) getActivity()).getUserGUI().getName());
-        new ImageLoader(profilePictureDrawer).execute(((MainActivity) getActivity()).getUserGUI().getUrlProfilePicture());;
+        Picasso.with(getContext()).load(((MainActivity) getActivity()).getUserGUI().getUrlProfilePicture().toString()).resize(300,300).into(profilePictureDrawer);
 
 
     }

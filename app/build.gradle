@@ -35,6 +35,7 @@ dependencies {
     compile 'com.google.firebase:firebase-crash:10.2.6'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.android.support:multidex:1.0.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 
         testCompile 'junit:junit:4.12'
 }

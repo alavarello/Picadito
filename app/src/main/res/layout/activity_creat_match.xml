@@ -11,21 +11,22 @@
     tools:context="com.picadito.picadito.Activities.CreatMatchActivity"
     android:orientation="vertical">
 
-    <TextView
-        android:text="Nombre del Partido:"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/creatMatchActivity_nameOfMatchTextView"
-        android:layout_weight="1" />
 
-    <EditText
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textNoSuggestions|textPersonName"
-        android:text="Partido"
-        android:ems="10"
-        android:id="@+id/creatActivity_nameOfMatchEditText"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/creatActivity_nameOfMatchEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre del partido"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:layout_weight="1"/>
+
+    </android.support.design.widget.TextInputLayout>
 
     <Button
         android:text="Elegi un dia"
@@ -40,21 +41,22 @@
         android:id="@+id/creatMatchActivity_pickTimeButton"
         android:layout_weight="1" />
 
-    <TextView
-        android:text="Elegi el precio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/creatMatchActivity_priceOfTheMatchTextView"
-        android:layout_weight="1" />
 
-    <EditText
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/creatMAtchActivity_priceOfTheMatchEditText"
-        android:layout_weight="1"
-        android:text="0.0" />
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/creatMAtchActivity_priceOfTheMatchEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Precio del partido"
+            android:inputType="numberDecimal"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:layout_weight="1"/>
+
+    </android.support.design.widget.TextInputLayout>
 
     <Button
         android:text="Elegi un lugar"

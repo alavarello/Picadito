@@ -10,6 +10,7 @@ import com.picadito.picadito.Activities.MainActivity;
 import com.picadito.picadito.GUI.UserGUI;
 import com.picadito.picadito.Model.ImageLoader;
 import com.picadito.picadito.R;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Agustin Lavarello on 8/5/2017.
@@ -33,6 +34,7 @@ public class UserDisplayer {
     public void displayUser() {
         profileNameText.setText(userGUI.getName());
         statusText.setText(userGUI.getStatus());
-         new ImageLoader(profilePicture).execute(userGUI.getUrlProfilePicture());
+        Picasso.with(userFragment.getContext()).load(userGUI.getUrlProfilePicture().toString()).resize(700,700).into(profilePicture);
+        // new ImageLoader(profilePicture).execute(userGUI.getUrlProfilePicture());
     }
 }

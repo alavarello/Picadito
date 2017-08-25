@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.picadito.picadito.GUI.UserGUI;
 import com.picadito.picadito.Model.Match;
@@ -19,8 +20,6 @@ import java.util.Date;
 
 public class CreatMatchActivity extends AppCompatActivity {
 
-    private TextView nameOfMatch_tv;
-    private TextView priceOfTheMatch_tv;
     private EditText nameOfMatch_et;
     private EditText priceOfTheMatch_et;
     private LinearLayout buttonsLinearLayout;
@@ -37,8 +36,6 @@ public class CreatMatchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_creat_match);
         mainUser = (UserGUI)getIntent().getSerializableExtra("user");
         //Seteo los resources
-        nameOfMatch_tv = (TextView) findViewById(R.id.creatMatchActivity_nameOfMatchTextView);
-        priceOfTheMatch_tv  = (TextView) findViewById(R.id.creatMatchActivity_priceOfTheMatchTextView);
         nameOfMatch_et = (EditText) findViewById(R.id.creatActivity_nameOfMatchEditText);
         priceOfTheMatch_et = (EditText) findViewById(R.id.creatMAtchActivity_priceOfTheMatchEditText);
         buttonsLinearLayout = (LinearLayout) findViewById(R.id.creatMatchActivity_buttonContainerLinearLayout);
@@ -56,9 +53,7 @@ public class CreatMatchActivity extends AppCompatActivity {
         int width =  metrics.widthPixels;
         int height = metrics.heightPixels;
 
-        nameOfMatch_tv.getLayoutParams().height = (int)(height*0.10);
         nameOfMatch_et.getLayoutParams().height = (int)(height*0.10);
-        priceOfTheMatch_tv.getLayoutParams().height = (int)(height*0.10);
         priceOfTheMatch_et.getLayoutParams().height = (int)(height*0.10);
         date_btn.getLayoutParams().height = (int)(height*0.1);
         time_btn.getLayoutParams().height = (int)(height*0.1);
@@ -94,11 +89,29 @@ public class CreatMatchActivity extends AppCompatActivity {
         creatMatch_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Match match = new Match(mainUser, date,nameOfMatch_et.getText().toString(),6,Double.parseDouble(priceOfTheMatch_et.getText().toString()));
-                Intent intent = new Intent();
-                intent.putExtra("match", (Serializable) match);
-                setResult(RESULT_OK,intent);
-                finish();
+                Boolean errorOccurs = false;
+                if(nameOfMatch_et.getText().toString().equals("")){
+                    nameOfMatch_et.setError("Falta el nombre del partido");
+                    nameOfMatch_et.requestFocus();
+                    errorOccurs = true;
+                }
+                if(priceOfTheMatch_et.getText().toString().equals("")){
+                    priceOfTheMatch_et.setError("Falta el precio");
+                    priceOfTheMatch_et.requestFocus();
+                    errorOccurs = true;
+                }
+                if(date == null){
+                    Toast.makeText(getApplicationContext(), "Elegi un dia", Toast.LENGTH_LONG).show();
+                    errorOccurs = true;
+                }
+                if(!errorOccurs){
+                    Match match = new Match(mainUser, date,nameOfMatch_et.getText().toString(),6,Double.parseDouble(priceOfTheMatch_et.getText().toString()));
+                    Intent intent = new Intent();
+                    intent.putExtra("match", (Serializable) match);
+                    setResult(RESULT_OK,intent);
+                    finish();
+                }
+
             }
         });
 
