@@ -40,6 +40,7 @@
         <activity android:name=".Activities.FriendsChatActivity" />
         <activity android:name=".Activities.UserMatchesActivity" />
         <activity android:name=".Activities.CreatMatchActivity" />
+        <activity android:name=".Activities.EightMatchActivity" />
         <activity
             android:name=".Activities.MainActivity"
             android:label="@string/title_activity_main"
