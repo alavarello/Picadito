@@ -91,7 +91,7 @@ public class CreatMatchActivity extends AppCompatActivity {
         EightPlayer_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                numberOfPlayers = 8;
+                numberOfPlayers = 9;
             }
         });
 
