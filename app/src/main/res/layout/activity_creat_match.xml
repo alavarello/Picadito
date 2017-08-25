@@ -58,12 +58,19 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <Button
-        android:text="Elegi un lugar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/creatMatchActivity_pickPlaceButton"
-        android:layout_weight="1" />
+        <Button
+            android:id="@+id/creatMatchActivity_6playerButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="6 Jugadores" />
+        <Button
+            android:id="@+id/creatMatchActivity_8playerButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="8 Jugadores" />
+   
 
     <LinearLayout
         android:orientation="horizontal"

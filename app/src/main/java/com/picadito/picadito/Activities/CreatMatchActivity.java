@@ -25,9 +25,11 @@ public class CreatMatchActivity extends AppCompatActivity {
     private LinearLayout buttonsLinearLayout;
     private Button date_btn;
     private Button time_btn;
-    private Button place_btn;
+    private Button SixPlayer_btn;
+    private Button EightPlayer_btn;
     private Button creatMatch_btn;
     private Button inviteFriends_btn;
+    private int numberOfPlayers = 0;
     private Date date;
     private UserGUI mainUser;
     @Override
@@ -43,7 +45,8 @@ public class CreatMatchActivity extends AppCompatActivity {
         inviteFriends_btn = (Button) findViewById(R.id.creatMatchActivity_inviteFriendsButton);
         date_btn = (Button) findViewById(R.id.creatMatchActivity_pickDateButton);
         time_btn = (Button) findViewById(R.id.creatMatchActivity_pickTimeButton);
-        place_btn = (Button) findViewById(R.id.creatMatchActivity_pickPlaceButton);
+        SixPlayer_btn = (Button) findViewById(R.id.creatMatchActivity_6playerButton);
+        EightPlayer_btn = (Button) findViewById(R.id.creatMatchActivity_8playerButton);
 
 
         //Seteo las dimensiones de cada componente
@@ -57,7 +60,6 @@ public class CreatMatchActivity extends AppCompatActivity {
         priceOfTheMatch_et.getLayoutParams().height = (int)(height*0.10);
         date_btn.getLayoutParams().height = (int)(height*0.1);
         time_btn.getLayoutParams().height = (int)(height*0.1);
-        place_btn.getLayoutParams().height = (int)(height*0.15);
         buttonsLinearLayout.getLayoutParams().height = (int)(height*0.10);
         inviteFriends_btn.getLayoutParams().width = (int) (width*0.5);
         creatMatch_btn.getLayoutParams().width = (int) (width*0.5);
@@ -79,13 +81,20 @@ public class CreatMatchActivity extends AppCompatActivity {
             }
         });
 
-        place_btn.setOnClickListener(new View.OnClickListener() {
+       SixPlayer_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
-                startActivity(intent);
+               numberOfPlayers = 6;
             }
         });
+
+        EightPlayer_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numberOfPlayers = 8;
+            }
+        });
+
         creatMatch_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,12 +109,20 @@ public class CreatMatchActivity extends AppCompatActivity {
                     priceOfTheMatch_et.requestFocus();
                     errorOccurs = true;
                 }
-                if(date == null){
+                if(numberOfPlayers == 0 && date == null){
+                    Toast.makeText(getApplicationContext(), "Elegi un dia y la cantidad de jugadores", Toast.LENGTH_LONG).show();
+                    errorOccurs = true;
+                }
+                else if(date == null){
                     Toast.makeText(getApplicationContext(), "Elegi un dia", Toast.LENGTH_LONG).show();
                     errorOccurs = true;
                 }
+                else if(numberOfPlayers == 0){
+                    Toast.makeText(getApplicationContext(), "Elegi la cantidad de jugadores", Toast.LENGTH_LONG).show();
+                    errorOccurs = true;
+                }
                 if(!errorOccurs){
-                    Match match = new Match(mainUser, date,nameOfMatch_et.getText().toString(),6,Double.parseDouble(priceOfTheMatch_et.getText().toString()));
+                    Match match = new Match(mainUser, date,nameOfMatch_et.getText().toString(),numberOfPlayers,Double.parseDouble(priceOfTheMatch_et.getText().toString()));
                     Intent intent = new Intent();
                     intent.putExtra("match", (Serializable) match);
                     setResult(RESULT_OK,intent);
