@@ -55,6 +55,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.picadito.picadito.GUI.FriendGUI;
 import com.picadito.picadito.GUI.MatchGUI;
 import com.picadito.picadito.GUI.UserGUI;
@@ -74,6 +79,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -98,6 +104,7 @@ public class LoginActivity extends AppCompatActivity  {
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private User user;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -191,6 +198,7 @@ public class LoginActivity extends AppCompatActivity  {
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
+
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("user", (Serializable) user);
                     startActivity(intent);
@@ -276,12 +284,29 @@ public class LoginActivity extends AppCompatActivity  {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     FirebaseUser userFireBase = firebaseAuth.getCurrentUser();
-                    try {
-                        user = new User(userFireBase.getDisplayName() , "hola", "ocupado", new URL(userFireBase.getPhotoUrl().toString()));
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                        System.out.println("Erro de url2");
+                    DatabaseReference userDataBaseReference = database.getReference();
+                    DatabaseReference specificUserDataBase = userDataBaseReference.child("user").child(userFireBase.getUid());
+                    specificUserDataBase.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            dataSnapshot.getValue(String.class);
+                        }
 
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // ...
+                        }
+                    });
+                    user = null;
+                    if(user == null) {
+                        try {
+                            user = new User(userFireBase.getDisplayName(), userFireBase.getUid(), "ocupado", new URL(userFireBase.getPhotoUrl().toString()));
+                            specificUserDataBase.setValue(userFireBase.getDisplayName());
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                            System.out.println("Erro de url2");
+
+                        }
                     }
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("user", (Serializable) user);
