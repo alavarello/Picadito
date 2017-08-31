@@ -24,7 +24,6 @@ public class UserGUI implements Serializable{
     private String Name;
     private String userName;
     private String Status;
-    private transient Drawable profilePicture;
     private URL urlProfilePicture;
     private SortedSet<MatchGUI> matcheses = new TreeSet<>();
     private SortedSet<FriendGUI> friends = new TreeSet<>();
@@ -52,10 +51,6 @@ public class UserGUI implements Serializable{
     }
 
     public URL getUrlProfilePicture(){return urlProfilePicture;}
-
-    public Drawable getProfilePicture(){
-        return profilePicture;
-    }
 
     public String getName() {
         return Name;

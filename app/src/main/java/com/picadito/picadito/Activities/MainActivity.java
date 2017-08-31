@@ -13,6 +13,10 @@ import android.util.Log;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.picadito.picadito.Activities.Displayers.FriendsDisplayable;
 import com.picadito.picadito.Activities.Fragments.FriendsFragment;
 import com.picadito.picadito.Activities.Fragments.UserFragment;
@@ -114,6 +118,12 @@ public class MainActivity extends AppCompatActivity implements FriendsDisplayabl
                     if (resultCode == RESULT_OK) {
                         user.setName(data.getStringExtra("newUserName"));
                 user.setStatus(data.getStringExtra("newUserStatus"));
+                        DatabaseReference userDataBaseReference = FirebaseDatabase.getInstance().getReference();
+                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                        FirebaseUser userFireBase = firebaseAuth.getCurrentUser();
+                        DatabaseReference specificUserDataBase = userDataBaseReference.child("user").child(userFireBase.getUid());
+                        specificUserDataBase.child("status").setValue(data.getStringExtra("newUserStatus"));
+                        specificUserDataBase.child("name").setValue(data.getStringExtra("newUserName"));
                 userGUI = user.getGUI();
                 try {
                     ((UserFragment)mSectionsPagerAdapter.getItem(0)).displayContent();

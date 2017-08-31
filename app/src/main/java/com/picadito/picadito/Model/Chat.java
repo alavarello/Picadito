@@ -11,4 +11,11 @@ public class Chat {
 
     String nameOfChater;
 
+    public String getNameOfChater() {
+        return nameOfChater;
+    }
+
+    public void setNameOfChater(String nameOfChater) {
+        this.nameOfChater = nameOfChater;
+    }
 }

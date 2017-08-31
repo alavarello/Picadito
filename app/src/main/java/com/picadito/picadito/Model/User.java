@@ -9,6 +9,7 @@ import com.picadito.picadito.GUI.NotificationGUI;
 import com.picadito.picadito.GUI.UserGUI;
 
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Comparator;
@@ -28,21 +29,52 @@ public class User implements Serializable {
     private String name;
     private String userName;
     private String status;
-    private transient Drawable profilePicture;
     private SortedSet<Match> matcheses = new TreeSet<Match>();
     private SortedSet<FriendGUI> friends = new TreeSet<>();
     private SortedSet<Notification> notifications = new TreeSet<Notification>();
     private PriorityQueue<Chat> chats = new PriorityQueue<Chat>();
-    private URL urlProfilePicture;
+    private String urlProfilePicture;
 
-    public User(String name, String userName, String status, URL urlProfilePicture) {
+    public User(String name, String userName, String status, String urlProfilePicture) {
         this.name = name;
         this.userName = userName;
         this.status = status;
         this.urlProfilePicture = urlProfilePicture;
     }
 
-    public User(String name, String userName, String status, URL urlProfilePicture, SortedSet<Match> matcheses, TreeSet<FriendGUI> friends, SortedSet<Notification> notifications, PriorityQueue<Chat> chats) {
+    public void setMatcheses(SortedSet<Match> matcheses) {
+        this.matcheses = matcheses;
+    }
+
+    public void setFriends(SortedSet<FriendGUI> friends) {
+        this.friends = friends;
+    }
+
+    public SortedSet<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(SortedSet<Notification> notifications) {
+        this.notifications = notifications;
+    }
+
+    public PriorityQueue<Chat> getChats() {
+        return chats;
+    }
+
+    public void setChats(PriorityQueue<Chat> chats) {
+        this.chats = chats;
+    }
+
+    public String getUrlProfilePicture() {
+        return urlProfilePicture;
+    }
+
+    public void setUrlProfilePicture(String urlProfilePicture) {
+        this.urlProfilePicture = urlProfilePicture;
+    }
+
+    public User(String name, String userName, String status, String urlProfilePicture, SortedSet<Match> matcheses, TreeSet<FriendGUI> friends, SortedSet<Notification> notifications, PriorityQueue<Chat> chats) {
         this.name = name;
         this.userName = userName;
         this.status = status;
@@ -56,13 +88,7 @@ public class User implements Serializable {
     public void setUserName(String userName){
         this.userName = userName;
     }
-    public Drawable getProfilePicture(){
-        return profilePicture;
-    }
 
-    public void setProfilePicture(Drawable profilePicture){
-        this.profilePicture = profilePicture;
-    }
 
     public String getName() {
         return name;
@@ -170,8 +196,17 @@ public class User implements Serializable {
         for (Notification n: notifications){
             notificationsGUI.add(n.getGUI());
         }
-        return new UserGUI(name, userName, status,urlProfilePicture,matchesGUI, friends,notificationsGUI, chats);
+        try {
+            return new UserGUI(name, userName, status,new URL(urlProfilePicture),matchesGUI, friends,notificationsGUI, chats);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
+
+
+
+
 
 
 }

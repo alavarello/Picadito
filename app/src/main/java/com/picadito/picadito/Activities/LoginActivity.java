@@ -1,48 +1,20 @@
 package com.picadito.picadito.Activities;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
-
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -62,7 +34,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.picadito.picadito.GUI.FriendGUI;
 import com.picadito.picadito.GUI.MatchGUI;
-import com.picadito.picadito.GUI.UserGUI;
 import com.picadito.picadito.Model.Match;
 import com.picadito.picadito.Model.MatchNotification;
 import com.picadito.picadito.Model.MessageNotification;
@@ -70,21 +41,11 @@ import com.picadito.picadito.Model.Notification;
 import com.picadito.picadito.Model.User;
 import com.picadito.picadito.R;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.Serializable;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.SortedSet;
 import java.util.TreeSet;
-
-import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
@@ -101,15 +62,12 @@ public class LoginActivity extends AppCompatActivity  {
     private String userId;
     private String TAG = "LoginActivity";
     private ProfileTracker mProfileTracker;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseAuth.AuthStateListener authStateListener;
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private User user;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        fireBaseStartAndVerification();
 
         //le saco el titulo de arriba (esto tiene que estar ates del setContentView)
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -123,7 +81,7 @@ public class LoginActivity extends AppCompatActivity  {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginattempt();
+               logingComplete();
             }
         });
 
@@ -170,7 +128,6 @@ public class LoginActivity extends AppCompatActivity  {
 //                request.executeAsync();
 
 
-
             }
 
             @Override
@@ -186,43 +143,11 @@ public class LoginActivity extends AppCompatActivity  {
 
     }
 
-    private void fireBaseStartAndVerification() {
-        firebaseAuth = FirebaseAuth.getInstance();
-        authStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                if(firebaseUser != null){
-                    try {
-                        user = new User(firebaseUser.getDisplayName(), "idede", "ocupado", new URL(firebaseUser.getPhotoUrl().toString()) );
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
-
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("user", (Serializable) user);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        };
-        firebaseAuth.addAuthStateListener(authStateListener);
-
-    }
-
-    private void loginattempt() {
-        String emailSubmit = email.getText().toString();
-        String passwordSubmit = password.getText().toString();
-
-        if (validateEmail(emailSubmit) && validatePassword(passwordSubmit)){
-            logingComplete();
-        }
-    }
 
     private void logingComplete() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        User user = new User("Agus", "agustinLavarello@hotmail.com", "ocupado", profilePicture);
-        User user2 = new User("Agus", "agustinLavarello@hotmail.com", "ocupado", profilePicture);
+        User user = new User("Agus", "agustinLavarello@hotmail.com", "ocupado", profilePicture.toString());
+        User user2 = new User("Agus", "agustinLavarello@hotmail.com", "ocupado", profilePicture.toString());
         Calendar c = Calendar.getInstance();
         Match match1 = new Match(user.getGUI(), new Date(c.getTimeInMillis()), "Picadito", 6,2.2);
         TreeSet<MatchGUI> matchesLuli = new TreeSet<MatchGUI>();
@@ -253,23 +178,6 @@ public class LoginActivity extends AppCompatActivity  {
         finish();
     }
 
-    private boolean validateEmail(String emailSubmit) {
-        if(emailSubmit.equals("Agus")){
-            return true;
-        }
-        email.setError("wrong email");
-        email.requestFocus();
-        return false;
-    }
-
-    private  boolean validatePassword(String passwordSubmit) {
-        if(passwordSubmit.equals("itba")){
-            return true;
-        }
-        password.setError("wrong passwor");
-        password.requestFocus();
-        return false;
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -283,13 +191,27 @@ public class LoginActivity extends AppCompatActivity  {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    FirebaseUser userFireBase = firebaseAuth.getCurrentUser();
-                    DatabaseReference userDataBaseReference = database.getReference();
+                    final FirebaseUser userFireBase = firebaseAuth.getCurrentUser();
+                    final DatabaseReference userDataBaseReference = database.getReference();
                     DatabaseReference specificUserDataBase = userDataBaseReference.child("user").child(userFireBase.getUid());
                     specificUserDataBase.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            dataSnapshot.getValue(String.class);
+                            if(dataSnapshot.getValue() != null) {
+                                user = new User(dataSnapshot.child("name").getValue(String.class), userFireBase.getUid().toString(), dataSnapshot.child("status").getValue(String.class), dataSnapshot.child("url").getValue(String.class));
+                            }else{
+                                user = new User(userFireBase.getDisplayName(), userFireBase.getUid(), "disponible", userFireBase.getPhotoUrl().toString());
+                                final DatabaseReference userDataBaseReference = database.getReference();
+                                DatabaseReference specificUserDataBase = userDataBaseReference.child("user").child(userFireBase.getUid());
+                                specificUserDataBase.child("name").setValue(userFireBase.getDisplayName());
+                                specificUserDataBase.child("url").setValue(userFireBase.getPhotoUrl().toString());
+                                specificUserDataBase.child("status").setValue("disponible");
+
+                            }
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.putExtra("user", (Serializable) user);
+                            startActivity(intent);
+                            finish();
                         }
 
                         @Override
@@ -297,48 +219,9 @@ public class LoginActivity extends AppCompatActivity  {
                             // ...
                         }
                     });
-                    user = null;
-                    if(user == null) {
-                        try {
-                            user = new User(userFireBase.getDisplayName(), userFireBase.getUid(), "ocupado", new URL(userFireBase.getPhotoUrl().toString()));
-                            specificUserDataBase.setValue(userFireBase.getDisplayName());
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                            System.out.println("Erro de url2");
-
-                        }
                     }
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("user", (Serializable) user);
-                    startActivity(intent);
-                    finish();
-
                 }
-            }
         });
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        firebaseAuth.addAuthStateListener(authStateListener);
-        //checkGooglePlayServices();
-
-    }
-
-    private void checkGooglePlayServices() {
-        GoogleApiAvailability googleApi = GoogleApiAvailability.getInstance();
-        int status = googleApi.isGooglePlayServicesAvailable(getApplicationContext());
-        if(status != ConnectionResult.SUCCESS){
-            googleApi.getErrorDialog(this,status, 1);
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        firebaseAuth.removeAuthStateListener(authStateListener);
     }
 }
 

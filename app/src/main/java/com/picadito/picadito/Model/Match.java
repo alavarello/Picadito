@@ -25,6 +25,31 @@ public class Match implements Comparable<Match> , Serializable{
     private String status;
     private String name;
     private double price;
+
+    public void setTeam1(Team team1) {
+        this.team1 = team1;
+    }
+
+    public void setTeam2(Team team2) {
+        this.team2 = team2;
+    }
+
+    public void setUser(UserGUI user) {
+        this.user = user;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setPrivate(boolean aPrivate) {
+        isPrivate = aPrivate;
+    }
+
     private boolean isPrivate; //if it's a private match or a public one
 
     public Match(UserGUI user,Date date, String name, int numberOfPlayers, double price){
@@ -203,6 +228,14 @@ public class Match implements Comparable<Match> , Serializable{
                 this.captain = players.getFirst();
             }
             players.remove(player);
+        }
+
+        public void setTeamSize(int teamSize) {
+            this.teamSize = teamSize;
+        }
+
+        public void setPlayers(LinkedList<UserGUI> players) {
+            this.players = players;
         }
 
         public boolean isComplete(){
