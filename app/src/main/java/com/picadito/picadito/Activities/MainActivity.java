@@ -8,11 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -21,35 +17,27 @@ import com.picadito.picadito.Activities.Displayers.FriendsDisplayable;
 import com.picadito.picadito.Activities.Fragments.FriendsFragment;
 import com.picadito.picadito.Activities.Fragments.UserFragment;
 import com.picadito.picadito.Activities.Fragments.WallFragment;
-import com.picadito.picadito.GUI.FriendGUI;
-import com.picadito.picadito.GUI.UserGUI;
+import com.picadito.picadito.Model.DownLoader;
 import com.picadito.picadito.Model.Match;
+import com.picadito.picadito.Model.Team;
+import com.picadito.picadito.Model.UpLoader;
 import com.picadito.picadito.Model.User;
 import com.picadito.picadito.R;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedSet;
 
 public class MainActivity extends AppCompatActivity implements FriendsDisplayable {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
 
-
-    private UserGUI userGUI;
     private User user;
 
 
     public User getUser() {
         return user;
-    }
-
-    public UserGUI getUserGUI() {
-        return userGUI;
     }
 
     @Override
@@ -62,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements FriendsDisplayabl
         setupViewPager(mViewPager);
 
         user = (User) getIntent().getSerializableExtra("user");
-        userGUI = user.getGUI();
 
     }
 
@@ -76,8 +63,8 @@ public class MainActivity extends AppCompatActivity implements FriendsDisplayabl
     }
 
     @Override
-    public SortedSet<FriendGUI> getFriends() {
-        return userGUI.getFriends();
+    public List<String> getFriends() {
+        return user.getFriends();
     }
 
 
@@ -116,16 +103,14 @@ public class MainActivity extends AppCompatActivity implements FriendsDisplayabl
           if (requestCode == 1) {
                     // Make sure the request was successful
                     if (resultCode == RESULT_OK) {
-                        user.setName(data.getStringExtra("newUserName"));
-                user.setStatus(data.getStringExtra("newUserStatus"));
-                        DatabaseReference userDataBaseReference = FirebaseDatabase.getInstance().getReference();
-                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                        FirebaseUser userFireBase = firebaseAuth.getCurrentUser();
-                        DatabaseReference specificUserDataBase = userDataBaseReference.child("user").child(userFireBase.getUid());
-                        specificUserDataBase.child("status").setValue(data.getStringExtra("newUserStatus"));
-                        specificUserDataBase.child("name").setValue(data.getStringExtra("newUserName"));
-                userGUI = user.getGUI();
-                try {
+                        String newName = data.getStringExtra("newUserName");
+                        String newStatus = data.getStringExtra("newUserStatus");
+
+                        user.setName(newName);
+                        user.setStatus(newStatus);
+                        UpLoader.loadUserName(user.getUserID(),newName);
+                        UpLoader.loadUserStatus(user.getUserID(), newStatus);
+                        try {
                     ((UserFragment)mSectionsPagerAdapter.getItem(0)).displayContent();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -135,8 +120,13 @@ public class MainActivity extends AppCompatActivity implements FriendsDisplayabl
         if (requestCode == 2) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                user.addMatch((Match) data.getSerializableExtra("match"));
-                userGUI = user.getGUI();
+                Match match = (Match)data.getSerializableExtra("match");
+                Team team1 = new Team(user.getUserID(),match.getNumberOfPlayers());
+                UpLoader.loadTeam(team1);
+                match.setTeam1(team1.getTeamID());
+                UpLoader.loadMatch(match);
+                UpLoader.loadMatchToUser(user,match);
+                user.addMatch(match.getMatchID());
 
             }
         }

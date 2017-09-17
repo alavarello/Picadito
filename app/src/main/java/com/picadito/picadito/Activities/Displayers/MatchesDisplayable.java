@@ -1,6 +1,6 @@
 package com.picadito.picadito.Activities.Displayers;
 
-import com.picadito.picadito.GUI.MatchGUI;
+import com.picadito.picadito.Model.Match;
 
 import java.util.SortedSet;
 
@@ -9,5 +9,5 @@ import java.util.SortedSet;
  */
 public interface MatchesDisplayable {
 
-    public SortedSet<MatchGUI> getMatches();
+    public SortedSet<Match> getMatches();
 }

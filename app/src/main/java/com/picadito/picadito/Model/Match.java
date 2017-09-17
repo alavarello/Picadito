@@ -1,40 +1,55 @@
 package com.picadito.picadito.Model;
 
-import android.provider.Settings;
-import android.provider.SyncStateContract;
-
 import com.picadito.picadito.Constants.StatusConstants;
-import com.picadito.picadito.Constants.TeamConstants;
-import com.picadito.picadito.GUI.MatchGUI;
-import com.picadito.picadito.GUI.UserGUI;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedList;
 
 /**
  * Created by Agustin Lavarello on 6/27/2017.
  */
 public class Match implements Comparable<Match> , Serializable{
 
-    private Date date;
-    private Team team1;
-    private Team team2;
-    private UserGUI user;
+    private String date;
+    private String team1;
+    private String team2;
+    private String user;
     private String status;
     private String name;
+    private String matchID;
     private double price;
+    private double numberOfPlayers;
+    private boolean isPrivate; //if it's a private match or a public one
 
-    public void setTeam1(Team team1) {
+
+    public double getNumberOfPlayers() {
+        return numberOfPlayers;
+    }
+
+    public void setNumberOfPlayers(double numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
+    }
+
+    public String getMatchID() {
+        return matchID;
+    }
+
+    public void setMatchID(String matchID) {
+        this.matchID = matchID;
+    }
+
+    public void setTeam1(String team1) {
         this.team1 = team1;
     }
 
-    public void setTeam2(Team team2) {
+    public void setTeam2(String team2) {
         this.team2 = team2;
     }
 
-    public void setUser(UserGUI user) {
+    public void setUser(String user) {
         this.user = user;
     }
 
@@ -50,17 +65,15 @@ public class Match implements Comparable<Match> , Serializable{
         isPrivate = aPrivate;
     }
 
-    private boolean isPrivate; //if it's a private match or a public one
 
-    public Match(UserGUI user,Date date, String name, int numberOfPlayers, double price){
+    public Match(){}
+    public Match(String user,String date, String name, double numberOfPlayers, double price){
         this.user = user;
         this.date = date;
         this.status = StatusConstants.PENDING;
         this.name = name;
-        this.team1 = new Team(user,numberOfPlayers);
-        this.team2 = new Team(user, numberOfPlayers);
         this.price = price;
-        
+        this.numberOfPlayers = numberOfPlayers;
     }
 
     public void setName(String name){
@@ -94,7 +107,7 @@ public class Match implements Comparable<Match> , Serializable{
         return result;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
@@ -102,42 +115,49 @@ public class Match implements Comparable<Match> , Serializable{
     If the date is privious than the current date, this method
     throws IllegalArgumenException
      */
-    public void setDate(Date date) {
+    public void setDate(String sDate) {
         Calendar c = Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        Date date = null;
+        try {
+            date = format.parse(sDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         if(date.compareTo(c.getTime())< 0){
             throw new IllegalArgumentException();
         }
-        this.date = date;
+        this.date = sDate;
     }
 
-    public Team getTeam1() {
+    public String getTeam1() {
         return team1;
     }
 
     /*
     Only the user can modify the first team
      */
-    public boolean addPlayerToTeam1(UserGUI player) {
-        boolean rta = this.team1.addPlayer(player);
-        if(rta && team1.isComplete() && team2.isComplete()){
-            this.status = StatusConstants.COMPLETE;
-        }
-        return rta;
+    public boolean addPlayerToTeam1(String player) {
+//        boolean rta = this.team1.addPlayer(player);
+//        if(rta && team1.isComplete() && team2.isComplete()){
+//            this.status = StatusConstants.COMPLETE;
+//        }
+        return true;
     }
 
-    public Team getTeam2() {
+    public String getTeam2() {
         return team2;
     }
 
     /*
     only the user can modify the second team, with aporval of the second team
      */
-    public boolean addPlayerToTeam2(UserGUI player) {
-       boolean rta = team2.addPlayer(player);
-        if(rta && team1.isComplete() && team2.isComplete()){
-            this.status = StatusConstants.COMPLETE;
-        }
-        return rta;
+    public boolean addPlayerToTeam2(String player) {
+//       boolean rta = team2.addPlayer(player);
+//        if(rta && team1.isComplete() && team2.isComplete()){
+//            this.status = StatusConstants.COMPLETE;
+//        }
+        return true;
     }
 
     public boolean removeTeam(){
@@ -149,7 +169,7 @@ public class Match implements Comparable<Match> , Serializable{
         return true;
     }
 
-    public UserGUI getUser() {
+    public String getUser() {
         return user;
     }
 
@@ -182,94 +202,6 @@ public class Match implements Comparable<Match> , Serializable{
     @Override
     public int compareTo(Match o) {
         return o.getDate().compareTo(this.date);
-    }
-
-    public MatchGUI getGUI(){
-        return new MatchGUI(date,team1.getGUI(),team2.getGUI(),user,status,name);
-    }
-    /*
-    The teams only exits in the context of a match
-     */
-    private class Team implements Serializable{
-
-        private int teamSize;
-        private UserGUI captain;
-        private LinkedList<UserGUI> players = new LinkedList<UserGUI>();
-
-        public Team(UserGUI captain, int size){
-            this.captain = captain;
-            if(size != TeamConstants.SixTeam && size != TeamConstants.NineTeam){
-                throw new IllegalArgumentException();
-            }
-            this.teamSize = size;
-            players.add(captain);
-        }
-
-        public Team(int size){
-            if(size != TeamConstants.SixTeam || size != TeamConstants.NineTeam){
-                throw new IllegalArgumentException();
-            }
-            this.teamSize = size;
-        }
-
-        public boolean addPlayer(UserGUI player){
-            if(players.size() >= teamSize || players.contains(player)){
-                return false;
-            }
-            if(players.isEmpty()){
-                captain = player;
-            }
-            players.add(player);
-            return true;
-        }
-
-        public void remove(UserGUI player){
-            if(captain.equals(player)) {
-                this.captain = players.getFirst();
-            }
-            players.remove(player);
-        }
-
-        public void setTeamSize(int teamSize) {
-            this.teamSize = teamSize;
-        }
-
-        public void setPlayers(LinkedList<UserGUI> players) {
-            this.players = players;
-        }
-
-        public boolean isComplete(){
-            if(teamSize == players.size()){
-                return true;
-            }
-            return false;
-        }
-
-        public int getTeamSize() {
-            return teamSize;
-        }
-
-        public UserGUI getCaptain() {
-            return captain;
-        }
-
-        public LinkedList<UserGUI> getPlayers() {
-            return players;
-        }
-
-        public boolean setCaptain(UserGUI player){
-            if(!players.contains(player)){
-                return false;
-            }
-            captain = player;
-            return true;
-        }
-
-        public MatchGUI.TeamGUI getGUI(){
-            return new MatchGUI.TeamGUI(teamSize,captain,players);
-        }
-
-
     }
 
 

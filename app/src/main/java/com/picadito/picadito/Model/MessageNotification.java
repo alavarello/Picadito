@@ -1,10 +1,5 @@
 package com.picadito.picadito.Model;
 
-import com.picadito.picadito.GUI.MatchNotificationGUI;
-import com.picadito.picadito.GUI.MessageNotificationGUI;
-import com.picadito.picadito.GUI.NotificationGUI;
-import com.picadito.picadito.GUI.UserGUI;
-
 import java.util.Calendar;
 import java.util.Date;
 
@@ -15,12 +10,12 @@ import java.util.Date;
 public class MessageNotification implements Notification {
 
     private String message;
-    private UserGUI from;
-    private UserGUI to;
+    private User from;
+    private User to;
     private boolean wasRead;
     private Date date;
 
-    public MessageNotification(String message, UserGUI from, UserGUI to, Date date) {
+    public MessageNotification(String message, User from, User to, Date date) {
         this.message = message;
         this.from = from;
         this.to = to;
@@ -36,11 +31,11 @@ public class MessageNotification implements Notification {
         return message;
     }
 
-    public UserGUI getFrom() {
+    public User getFrom() {
         return from;
     }
 
-    public UserGUI getTo() {
+    public User getTo() {
         return to;
     }
 
@@ -78,9 +73,6 @@ public class MessageNotification implements Notification {
         return date.compareTo(o.getDate());
     }
 
-    public NotificationGUI getGUI(){
-        return new MessageNotificationGUI(message,from,to,wasRead,date);
-    }
 
 
 }

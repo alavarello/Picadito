@@ -11,13 +11,11 @@
             android:layout_height="10dp" />
 
         <TextView
-            android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/matchesButtonLayout_nameTextView" />
 
         <TextView
-            android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/matchesButtonLayout_dateTextView" />

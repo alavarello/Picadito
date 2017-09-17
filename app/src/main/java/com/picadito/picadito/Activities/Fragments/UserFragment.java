@@ -33,7 +33,6 @@ import com.picadito.picadito.Activities.MainActivity;
 import com.picadito.picadito.Activities.NotificationsContainerActivity;
 import com.picadito.picadito.Activities.SettingsActivity;
 import com.picadito.picadito.Activities.UserMatchesActivity;
-import com.picadito.picadito.Model.ImageLoader;
 import com.picadito.picadito.R;
 import com.squareup.picasso.Picasso;
 
@@ -106,7 +105,7 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mainActivity.getApplicationContext(), UserMatchesActivity.class);
-                intent.putExtra("user", (Serializable) mainActivity.getUserGUI());
+                intent.putExtra("user", (Serializable) mainActivity.getUser());
                 startActivity(intent);
 
             }
@@ -122,7 +121,7 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mainActivity.getApplicationContext(), FriendsChatActivity.class);
-                intent.putExtra("user", (Serializable) mainActivity.getUserGUI());
+                intent.putExtra("user", (Serializable) mainActivity.getUser());
                 startActivity(intent);
             }
         });
@@ -130,7 +129,7 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mainActivity.getApplicationContext(), CreatMatchActivity.class);
-                intent.putExtra("user", (Serializable) mainActivity.getUserGUI());
+                intent.putExtra("user", (Serializable) mainActivity.getUser());
                 getActivity().startActivityForResult(intent,2);
             }
         });
@@ -139,7 +138,7 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mainActivity.getApplicationContext(), NotificationsContainerActivity.class);
-                intent.putExtra("user", (Serializable) mainActivity.getUserGUI());
+                intent.putExtra("user", (Serializable) mainActivity.getUser());
                 startActivity(intent);
             }
         });
@@ -147,7 +146,7 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mainActivity.getApplicationContext(), SettingsActivity.class);
-                intent.putExtra("user", (Serializable) mainActivity.getUserGUI());
+                intent.putExtra("user", (Serializable) mainActivity.getUser());
                 getActivity().startActivityForResult(intent, 1);
 
             }
@@ -206,11 +205,9 @@ public class UserFragment extends Fragment {
 
 
     public void displayContent()  {
-        UserDisplayer dislplayUserContent = new UserDisplayer(mainActivity.getUserGUI(), this);
+        UserDisplayer dislplayUserContent = new UserDisplayer(mainActivity.getUser(), this);
         dislplayUserContent.displayUser();
-        userNameDrawer.setText(((MainActivity) getActivity()).getUserGUI().getUserName());
-        profileNameTextDrawer.setText(((MainActivity) getActivity()).getUserGUI().getName());
-        Picasso.with(getContext()).load(((MainActivity) getActivity()).getUserGUI().getUrlProfilePicture().toString()).resize(300,300).into(profilePictureDrawer);
+
 
 
     }

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.picadito.picadito.Activities.FriendMainActivity;
-import com.picadito.picadito.GUI.FriendGUI;
+import com.picadito.picadito.Model.Friend;
 import com.picadito.picadito.R;
 
 /**
@@ -21,7 +21,7 @@ public class FriendFragment extends Fragment {
     private ImageView profilePicture;
     private TextView name;
     private TextView status;
-    private FriendGUI friendGUI;
+    private Friend friend;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -30,10 +30,10 @@ public class FriendFragment extends Fragment {
         profilePicture = (ImageView) view.findViewById(R.id.friendFragment_profilePictureImageView);
         name = (TextView) view.findViewById(R.id.friendFragment_friendNameTextView);
         status = (TextView) view.findViewById(R.id.friendFragment_friendStatus_TextView);
-        friendGUI = ((FriendMainActivity)getActivity()).getFriendGUI();
-        profilePicture.setImageDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(),friendGUI.getProfilePicture()));
-        name.setText(friendGUI.getName());
-        status.setText(friendGUI.getStatus());
+        friend = ((FriendMainActivity)getActivity()).getFriend();
+        profilePicture.setImageDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(), friend.getProfilePicture()));
+        name.setText(friend.getName());
+        status.setText(friend.getStatus());
 
         return view;
 

@@ -1,7 +1,5 @@
 package com.picadito.picadito.Model;
 
-import com.picadito.picadito.GUI.NotificationGUI;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,8 +14,6 @@ public interface Notification extends Comparable<Notification> , Serializable{
     public void read();
 
     public Date getDate();
-
-    public NotificationGUI getGUI();
 
     public String getShortMessage();
 

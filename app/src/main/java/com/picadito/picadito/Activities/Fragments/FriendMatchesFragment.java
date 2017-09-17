@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 
 import com.picadito.picadito.Activities.Displayers.MatchesDisplayer;
 import com.picadito.picadito.Activities.FriendMainActivity;
-import com.picadito.picadito.GUI.FriendGUI;
+import com.picadito.picadito.Model.Friend;
 import com.picadito.picadito.R;
 
 /**
@@ -18,14 +18,14 @@ import com.picadito.picadito.R;
 public class FriendMatchesFragment extends Fragment {
 
    LinearLayout layout;
-    private FriendGUI friendGUI;
+    private Friend friend;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.scrolling_layout, container, false);
 
         layout = (LinearLayout) view.findViewById(R.id.scrollingFragment_mainLayoutLinearLayout);
-        friendGUI = ((FriendMainActivity)getActivity()).getFriendGUI();
+        friend = ((FriendMainActivity)getActivity()).getFriend();
         MatchesDisplayer matchesDisplayer = new MatchesDisplayer(getActivity(), layout);
         matchesDisplayer.displayMatches();
 

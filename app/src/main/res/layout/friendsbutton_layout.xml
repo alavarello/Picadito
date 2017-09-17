@@ -20,13 +20,11 @@
         android:id="@+id/friendsButtonLayout_verticalLinearLayout">
 
         <TextView
-            android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/friendsButtonLayout_nameTextView" />
 
         <TextView
-            android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/friendsButtonLayout_statusTextView" />

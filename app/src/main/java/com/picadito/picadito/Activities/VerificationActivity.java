@@ -13,10 +13,16 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.picadito.picadito.Model.DownLoader;
+import com.picadito.picadito.Model.Notification;
 import com.picadito.picadito.Model.User;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by agust on 8/28/2017.
@@ -44,7 +50,7 @@ public class VerificationActivity extends AppCompatActivity {
                     specificUserDataBase.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            user = new User(dataSnapshot.child("name").getValue(String.class), firebaseUser.getUid().toString(), dataSnapshot.child("status").getValue(String.class), firebaseUser.getPhotoUrl().toString());
+                            user = DownLoader.downLoadUser(dataSnapshot);
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             intent.putExtra("user", (Serializable) user);
                             startActivity(intent);

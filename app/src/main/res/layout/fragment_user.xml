@@ -68,7 +68,6 @@
         </RelativeLayout>
 
         <TextView
-            android:text="Nombre"
             android:layout_below="@+id/userFragment_profilePictureImageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,7 +75,6 @@
             android:layout_weight="0.18" />
 
         <TextView
-            android:text="Estado"
             android:layout_below="@+id/userFragment_profileNameTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,7 +82,7 @@
             android:layout_weight="0.31" />
 
         <Button
-            android:text="Ver Partidos"
+            android:text="@string/fragment_user_view_matches"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -92,7 +90,7 @@
             android:layout_weight="0.10" />
 
         <Button
-            android:text="Crear un Partido"
+            android:text="@string/fragment_user_creat_match"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -151,7 +149,7 @@
 
             </LinearLayout>
             <Button
-            android:text="Modificar Perfil"
+            android:text="@string/fragment_user_drawer_profile_cofiguration"
             android:layout_width="match_parent"
             android:textColor="@android:color/white"
             android:background="@android:color/transparent"
@@ -168,7 +166,7 @@
                 android:id="@+id/userFragment_accountManagerButton"
                 android:layout_weight="0.10" />
             <Button
-                android:text="Cerrar session"
+                android:text="@string/fragment_user_drawer_log_out"
                 android:textColor="@android:color/white"
                 android:background="@android:color/transparent"
                 android:layout_width="match_parent"

@@ -18,8 +18,6 @@ import com.facebook.FacebookException;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -32,20 +30,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.picadito.picadito.GUI.FriendGUI;
-import com.picadito.picadito.GUI.MatchGUI;
-import com.picadito.picadito.Model.Match;
-import com.picadito.picadito.Model.MatchNotification;
-import com.picadito.picadito.Model.MessageNotification;
+import com.picadito.picadito.Model.DownLoader;
 import com.picadito.picadito.Model.Notification;
+import com.picadito.picadito.Model.UpLoader;
 import com.picadito.picadito.Model.User;
 import com.picadito.picadito.R;
+import com.squareup.picasso.Picasso;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.net.URL;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TreeSet;
+import java.util.LinkedList;
 
 /**
  * A login screen that offers login via email/password.
@@ -145,37 +142,37 @@ public class LoginActivity extends AppCompatActivity  {
 
 
     private void logingComplete() {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        User user = new User("Agus", "agustinLavarello@hotmail.com", "ocupado", profilePicture.toString());
-        User user2 = new User("Agus", "agustinLavarello@hotmail.com", "ocupado", profilePicture.toString());
-        Calendar c = Calendar.getInstance();
-        Match match1 = new Match(user.getGUI(), new Date(c.getTimeInMillis()), "Picadito", 6,2.2);
-        TreeSet<MatchGUI> matchesLuli = new TreeSet<MatchGUI>();
-        matchesLuli.add(match1.getGUI());
-        TreeSet<FriendGUI> friendLuli = new TreeSet<FriendGUI>();
-        FriendGUI friend1 = new FriendGUI("Marcos", "MarcosLavarello","Disponible",  R.drawable.marcos, new TreeSet<MatchGUI>(),new TreeSet<FriendGUI>());
-        FriendGUI friend2 = new FriendGUI("Sofia", "SofiaLavarello","Disponible", R.drawable.player_login,new TreeSet<MatchGUI>(),new TreeSet<FriendGUI>());
-        friendLuli.add(friend1);
-        friendLuli.add(friend2);
-        FriendGUI friend3 = new FriendGUI("Luli", "LuliStrozza","Disponible", R.drawable.luli,matchesLuli,friendLuli);
-        user.addFriend(friend1);
-        user.addFriend(friend2);
-        user.addFriend(friend3);
-        user.addMatch(match1);
-        Match match2 = new Match(user.getGUI(), new Date(c.getTimeInMillis()- 100000000), "Picadito2", 6,2.2);
-        user.addMatch(match2);
-        Date date = new Date();
-        date.setTime(c.getTimeInMillis());
-        Notification notification1 = new MessageNotification("hola", user.getGUI(),user2.getGUI(),c.getTime());
-        user.addNotification(notification1);
-        Notification notification2 = new MatchNotification(match2.getGUI(),"hola2", c.getTime());
-        Notification notification3 = new MatchNotification(match1.getGUI(),"hola3", c.getTime());
-        notification3.read();
-        user.addNotification(notification2);
-        user.addNotification(notification3);
-        intent.putExtra("user", (Serializable) user);
-        startActivity(intent);
-        finish();
+//        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//        User user = new User("Agus", "agustinLavarello@hotmail.com", "ocupado", profilePicture.toString());
+//        User user2 = new User("Agus", "agustinLavarello@hotmail.com", "ocupado", profilePicture.toString());
+//        Calendar c = Calendar.getInstance();
+//        Match match1 = new Match(user.getGUI(), new Date(c.getTimeInMillis()), "Picadito", 6,2.2);
+//        TreeSet<MatchGUI> matchesLuli = new TreeSet<MatchGUI>();
+//        matchesLuli.add(match1.getGUI());
+//        TreeSet<Friend> friendLuli = new TreeSet<Friend>();
+//        Friend friend1 = new Friend("Marcos", "MarcosLavarello","Disponible",  R.drawable.marcos, new TreeSet<MatchGUI>(),new TreeSet<Friend>());
+//        Friend friend2 = new Friend("Sofia", "SofiaLavarello","Disponible", R.drawable.player_login,new TreeSet<MatchGUI>(),new TreeSet<Friend>());
+//        friendLuli.add(friend1);
+//        friendLuli.add(friend2);
+//        Friend friend3 = new Friend("Luli", "LuliStrozza","Disponible", R.drawable.luli,matchesLuli,friendLuli);
+//        user.addFriend(friend1);
+//        user.addFriend(friend2);
+//        user.addFriend(friend3);
+//        user.addMatch(match1);
+//        Match match2 = new Match(user.getGUI(), new Date(c.getTimeInMillis()- 100000000), "Picadito2", 6,2.2);
+//        user.addMatch(match2);
+//        Date date = new Date();
+//        date.setTime(c.getTimeInMillis());
+//        Notification notification1 = new MessageNotification("hola", user.getGUI(),user2.getGUI(),c.getTime());
+//        user.addNotification(notification1);
+//        Notification notification2 = new MatchNotification(match2.getGUI(),"hola2", c.getTime());
+//        Notification notification3 = new MatchNotification(match1.getGUI(),"hola3", c.getTime());
+//        notification3.read();
+//        user.addNotification(notification2);
+//        user.addNotification(notification3);
+//        intent.putExtra("user", (Serializable) user);
+//        startActivity(intent);
+//        finish();
     }
 
 
@@ -197,21 +194,18 @@ public class LoginActivity extends AppCompatActivity  {
                     specificUserDataBase.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            if(dataSnapshot.getValue() != null) {
-                                user = new User(dataSnapshot.child("name").getValue(String.class), userFireBase.getUid().toString(), dataSnapshot.child("status").getValue(String.class), dataSnapshot.child("url").getValue(String.class));
-                            }else{
-                                user = new User(userFireBase.getDisplayName(), userFireBase.getUid(), "disponible", userFireBase.getPhotoUrl().toString());
-                                final DatabaseReference userDataBaseReference = database.getReference();
-                                DatabaseReference specificUserDataBase = userDataBaseReference.child("user").child(userFireBase.getUid());
-                                specificUserDataBase.child("name").setValue(userFireBase.getDisplayName());
-                                specificUserDataBase.child("url").setValue(userFireBase.getPhotoUrl().toString());
-                                specificUserDataBase.child("status").setValue("disponible");
+                            if (dataSnapshot.getValue() != null) {
 
+                                user = DownLoader.downLoadUser(dataSnapshot);
+                            } else {
+                                user = new User(userFireBase.getDisplayName(), userFireBase.getUid(), "disponible", userFireBase.getPhotoUrl().toString());
+                                user.addFriend("hola");
+                                UpLoader.loadUser(user);
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.putExtra("user", (Serializable) user);
+                                startActivity(intent);
+                                finish();
                             }
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            intent.putExtra("user", (Serializable) user);
-                            startActivity(intent);
-                            finish();
                         }
 
                         @Override

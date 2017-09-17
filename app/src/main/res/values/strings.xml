@@ -1,5 +1,32 @@
 <resources>
+    <!-- Castellano -->
     <string name="app_name">Picadito</string>
+
+    <!-- Uso comun -->
+    <string name="accept">Aceptar</string>
+    <string name="name_with_two_dots">Nombre: </string>
+    <string name="status_with_two_dots">Estado: </string>
+
+    <!-- Activity configuratio -->
+    <string name="activity_configuratio_choose_profile_picture">Elegi una nueva foto</string>
+    <string name="activity_configuratio_aplay_changes">Aplicar cambios</string>
+
+    <!-- Activity creat match -->
+    <string name="activity_creat_match_name_of_the_match">Nombre del Partido:</string>
+    <string name="activity_creat_match_choose_date">Elegi un dia</string>
+    <string name="activity_creat_match_choose_time">Elegi una hora</string>
+    <string name="activity_creat_match_price_of_match">Elegi una hora</string>
+    <string name="activity_creat_match_creat_match">Crear partido</string>
+    <string name="activity_creat_match_invite_friends">Invita amigos</string>
+
+    <!-- Fragment user -->
+    <string name="fragment_user_creat_match">Crear un partido</string>
+    <string name="fragment_user_view_matches">Ver partidos</string>
+            <!-- Fragment user - drawer -->
+    <string name="fragment_user_drawer_profile_cofiguration">Configurar perfil</string>
+    <string name="fragment_user_drawer_log_out">Cerrar sesion</string>
+
+
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

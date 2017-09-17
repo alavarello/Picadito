@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -12,7 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.picadito.picadito.GUI.UserGUI;
+import com.picadito.picadito.Model.DownLoader;
+import com.picadito.picadito.Model.UpLoader;
+import com.picadito.picadito.Model.User;
 import com.picadito.picadito.R;
 
 import java.io.BufferedInputStream;
@@ -20,6 +23,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Created by agust on 3/2/2017.
@@ -32,8 +38,8 @@ public class SettingsActivity extends Activity {
     EditText userStatus;
     Button saveChanges;
     Button pickPorfilePictue;
-    UserGUI user;
-    Bitmap newProfilePicture;
+    User user;
+    Uri newProfilePicture;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +47,7 @@ public class SettingsActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.activity_configuration);
-        user = (UserGUI) getIntent().getSerializableExtra("user");
+        user = (User) getIntent().getSerializableExtra("user");
 
 
         userName = (EditText) findViewById(R.id.configurationActivity_nameEditText);
@@ -63,8 +69,10 @@ public class SettingsActivity extends Activity {
                     Intent intent = new Intent();
                     intent.putExtra("newUserName", userName.getText().toString());
                     intent.putExtra("newUserStatus", userStatus.getText().toString());
+                    intent.putExtra("newProfilePicture", true);
                     if (newProfilePicture != null) {
-                        createImageFromBitmap(newProfilePicture);
+                        UpLoader.loadUserProfilePictureStorage(user.getUserID(), newProfilePicture);
+                        UpLoader.loadUserProfilePicture(user.getUserID(), newProfilePicture.toString());
                     }
                     setResult(RESULT_OK, intent);
                     finish();
@@ -84,28 +92,20 @@ public class SettingsActivity extends Activity {
     }
 
     public void pickImage(){
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        startActivityForResult(intent, PICK_PHOTO_FOR_AVATAR);
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, 1);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_PHOTO_FOR_AVATAR && resultCode == Activity.RESULT_OK) {
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             if (data == null) {
                 //Display an error
                 return;
             }
-            try {
-               InputStream inputStream = getApplicationContext().getContentResolver().openInputStream(data.getData());
-                BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-                newProfilePicture = BitmapFactory.decodeStream(bufferedInputStream);
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-
+            newProfilePicture = data.getData();
 
         }
     }

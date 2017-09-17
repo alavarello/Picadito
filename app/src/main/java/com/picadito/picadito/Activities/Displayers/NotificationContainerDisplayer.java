@@ -1,27 +1,18 @@
 package com.picadito.picadito.Activities.Displayers;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.picadito.picadito.Activities.FriendMainActivity;
-import com.picadito.picadito.Activities.NotificationsContainerActivity;
-import com.picadito.picadito.GUI.FriendGUI;
-import com.picadito.picadito.GUI.NotificationGUI;
 import com.picadito.picadito.Model.Notification;
 import com.picadito.picadito.R;
 
-import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -31,12 +22,12 @@ import java.util.TreeSet;
 
 public class NotificationContainerDisplayer {
 
-    private SortedSet<NotificationGUI> newNotifications;
-    private SortedSet<NotificationGUI> oldNotification;
+    private SortedSet<Notification> newNotifications;
+    private SortedSet<Notification> oldNotification;
     private LinearLayout layout;
     private AppCompatActivity notificationsContainerActivity;
 
-    public NotificationContainerDisplayer(SortedSet<NotificationGUI> newNotifications, SortedSet<NotificationGUI> oldNotification, LinearLayout layout, AppCompatActivity notificationsContainerActivity) {
+    public NotificationContainerDisplayer(SortedSet<Notification> newNotifications, SortedSet<Notification> oldNotification, LinearLayout layout, AppCompatActivity notificationsContainerActivity) {
         this.newNotifications = newNotifications;
         this.oldNotification = oldNotification;
         this.layout = layout;
@@ -45,7 +36,7 @@ public class NotificationContainerDisplayer {
 
     public void displayNotifications(){
         layout.removeAllViews();
-        SortedSet<NotificationGUI> notifications = new TreeSet<>();
+        SortedSet<Notification> notifications = new TreeSet<>();
         notifications.addAll(newNotifications);
         notifications.addAll(oldNotification);
         if (notifications.isEmpty()) {
@@ -59,7 +50,7 @@ public class NotificationContainerDisplayer {
             int width = metrics.widthPixels;
             int height = metrics.heightPixels;
             LayoutInflater inflater = (LayoutInflater) notificationsContainerActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            for (NotificationGUI notification : notifications) {
+            for (Notification notification : notifications) {
                 View customView = inflater.inflate(R.layout.notificationsbutton_layout, null);
                 LinearLayout notificationLayout = (LinearLayout) customView.findViewById(R.id.notificationsButtonLayout_mainLinearLayout);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);

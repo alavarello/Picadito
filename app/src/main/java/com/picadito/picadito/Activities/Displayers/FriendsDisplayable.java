@@ -1,8 +1,6 @@
 package com.picadito.picadito.Activities.Displayers;
 
-import com.picadito.picadito.GUI.FriendGUI;
-
-import java.util.SortedSet;
+import java.util.List;
 
 /**
  * Created by Agustin Lavarello on 8/9/2017.
@@ -10,5 +8,5 @@ import java.util.SortedSet;
 
 public interface FriendsDisplayable {
 
-    public SortedSet<FriendGUI> getFriends();
+    public List<String> getFriends();
 }

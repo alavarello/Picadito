@@ -1,7 +1,5 @@
 package com.picadito.picadito.Model;
 
-import com.picadito.picadito.GUI.NotificationGUI;
-
 import java.util.Calendar;
 import java.util.Date;
 
@@ -40,10 +38,6 @@ public class ConfirmPlayerToMatchNotification implements Notification {
         return date;
     }
 
-    @Override
-    public NotificationGUI getGUI() {
-        return null;
-    }
 
     @Override
     public String getShortMessage() {

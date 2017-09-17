@@ -8,14 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.picadito.picadito.GUI.UserGUI;
 import com.picadito.picadito.Model.Match;
+import com.picadito.picadito.Model.User;
 import com.picadito.picadito.R;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CreatMatchActivity extends AppCompatActivity {
@@ -29,14 +29,14 @@ public class CreatMatchActivity extends AppCompatActivity {
     private Button EightPlayer_btn;
     private Button creatMatch_btn;
     private Button inviteFriends_btn;
-    private int numberOfPlayers = 0;
+    private double numberOfPlayers = 0;
     private Date date;
-    private UserGUI mainUser;
+    private User mainUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creat_match);
-        mainUser = (UserGUI)getIntent().getSerializableExtra("user");
+        mainUser = (User)getIntent().getSerializableExtra("user");
         //Seteo los resources
         nameOfMatch_et = (EditText) findViewById(R.id.creatActivity_nameOfMatchEditText);
         priceOfTheMatch_et = (EditText) findViewById(R.id.creatMAtchActivity_priceOfTheMatchEditText);
@@ -91,7 +91,7 @@ public class CreatMatchActivity extends AppCompatActivity {
         EightPlayer_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                numberOfPlayers = 9;
+                numberOfPlayers =9;
             }
         });
 
@@ -122,7 +122,8 @@ public class CreatMatchActivity extends AppCompatActivity {
                     errorOccurs = true;
                 }
                 if(!errorOccurs){
-                    Match match = new Match(mainUser, date,nameOfMatch_et.getText().toString(),numberOfPlayers,Double.parseDouble(priceOfTheMatch_et.getText().toString()));
+                    SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                    Match match = new Match(mainUser.getUserID(), dateformat.format(date),nameOfMatch_et.getText().toString(),numberOfPlayers,Double.parseDouble(priceOfTheMatch_et.getText().toString()));
                     Intent intent = new Intent();
                     intent.putExtra("match", (Serializable) match);
                     setResult(RESULT_OK,intent);

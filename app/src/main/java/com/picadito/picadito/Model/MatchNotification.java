@@ -1,9 +1,5 @@
 package com.picadito.picadito.Model;
 
-import com.picadito.picadito.GUI.MatchGUI;
-import com.picadito.picadito.GUI.MatchNotificationGUI;
-import com.picadito.picadito.GUI.NotificationGUI;
-
 import java.util.Calendar;
 import java.util.Date;
 
@@ -13,12 +9,12 @@ import java.util.Date;
 
 public class MatchNotification implements Notification {
 
-    private MatchGUI match;
+    private Match match;
     private String message;
     private boolean wasRead;
     private Date date;
 
-    public MatchNotification(MatchGUI match, String message, Date date) {
+    public MatchNotification(Match match, String message, Date date) {
         this.match = match;
         this.message = message;
         this.wasRead = false;
@@ -29,7 +25,7 @@ public class MatchNotification implements Notification {
         this.date = date;
     }
 
-    public MatchGUI getMatch() {
+    public Match getMatch() {
         return match;
     }
 
@@ -52,10 +48,6 @@ public class MatchNotification implements Notification {
         return date;
     }
 
-    @Override
-    public NotificationGUI getGUI() {
-        return new MatchNotificationGUI(match,message,wasRead,date);
-    }
 
     @Override
     public String getShortMessage() {

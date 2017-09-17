@@ -20,7 +20,7 @@
             android:id="@+id/creatActivity_nameOfMatchEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre del partido"
+            android:hint="@string/activity_creat_match_name_of_the_match"
             android:inputType="text"
             android:maxLines="1"
             android:singleLine="true"
@@ -29,13 +29,13 @@
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:text="Elegi un dia"
+        android:text="@string/activity_creat_match_name_of_the_match"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/creatMatchActivity_pickDateButton"
         android:layout_weight="1" />
     <Button
-        android:text="Elegi la hora"
+        android:text="@string/activity_creat_match_choose_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/creatMatchActivity_pickTimeButton"
@@ -50,7 +50,7 @@
             android:id="@+id/creatMAtchActivity_priceOfTheMatchEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Precio del partido"
+            android:hint="@string/activity_creat_match_price_of_match"
             android:inputType="numberDecimal"
             android:maxLines="1"
             android:singleLine="true"
@@ -80,14 +80,14 @@
         android:id="@+id/creatMatchActivity_buttonContainerLinearLayout">
 
         <Button
-            android:text="Invitar Amigos"
+            android:text="@string/activity_creat_match_invite_friends"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/creatMatchActivity_inviteFriendsButton"
             android:layout_weight="1" />
 
         <Button
-            android:text="Crear Partido"
+            android:text="@string/activity_creat_match_creat_match"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/creatMatchActivity_creatMatchButton"

@@ -2,30 +2,21 @@ package com.picadito.picadito.Activities.Displayers;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.picadito.picadito.Activities.FriendMainActivity;
-import com.picadito.picadito.GUI.FriendGUI;
-import com.picadito.picadito.GUI.MatchGUI;
+import com.picadito.picadito.Model.Friend;
 import com.picadito.picadito.R;
 
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.SortedSet;
-import java.util.jar.Attributes;
 
 /**
  * Created by Agustin Lavarello on 8/5/2017.
@@ -33,11 +24,11 @@ import java.util.jar.Attributes;
 
 public class FriendsDisplayer {
 
-    private SortedSet<FriendGUI> friends;
+    private SortedSet<Friend> friends;
     private AppCompatActivity activity;
     private LinearLayout layout;
 
-    public FriendsDisplayer(SortedSet<FriendGUI> friends, AppCompatActivity activity, LinearLayout layout) {
+    public FriendsDisplayer(SortedSet<Friend> friends, AppCompatActivity activity, LinearLayout layout) {
         this.friends = friends;
         this.activity = activity;
         this.layout = layout;
@@ -58,7 +49,7 @@ public class FriendsDisplayer {
             int width = metrics.widthPixels;
             int height = metrics.heightPixels;
             LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            for (final FriendGUI friend : friends) {
+            for (final Friend friend : friends) {
                 View customView = inflater.inflate(R.layout.friendsbutton_layout, null);
                 LinearLayout friendLayout = (LinearLayout) customView.findViewById(R.id.friendsButtonLayout_mainLinearLayout);
                 friendLayout.setClickable(true);

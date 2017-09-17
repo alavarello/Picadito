@@ -1,68 +1,56 @@
 package com.picadito.picadito.Model;
 
-import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-
-import com.picadito.picadito.GUI.FriendGUI;
-import com.picadito.picadito.GUI.MatchGUI;
-import com.picadito.picadito.GUI.NotificationGUI;
-import com.picadito.picadito.GUI.UserGUI;
-
 import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 /**
  * Created by Agustin Lavarello on 6/27/2017.
  */
 
 public class User implements Serializable {
-    private String name;
     private String userName;
+    private String userID;
     private String status;
-    private SortedSet<Match> matcheses = new TreeSet<Match>();
-    private SortedSet<FriendGUI> friends = new TreeSet<>();
-    private SortedSet<Notification> notifications = new TreeSet<Notification>();
-    private PriorityQueue<Chat> chats = new PriorityQueue<Chat>();
     private String urlProfilePicture;
 
+    private List<String> matcheses = new ArrayList<>();
+    private List<String> friends = new ArrayList<>();
+    private List<Notification> notifications = new ArrayList<>();
+    private List<String> chats = new ArrayList<>();
+
+
+    public User(){}
+
     public User(String name, String userName, String status, String urlProfilePicture) {
-        this.name = name;
-        this.userName = userName;
+        this.userName = name;
+        this.userID = userName;
         this.status = status;
         this.urlProfilePicture = urlProfilePicture;
     }
 
-    public void setMatcheses(SortedSet<Match> matcheses) {
+    public void setMatcheses(List<String> matcheses) {
         this.matcheses = matcheses;
     }
 
-    public void setFriends(SortedSet<FriendGUI> friends) {
+    public void setFriends(List<String> friends) {
         this.friends = friends;
     }
 
-    public SortedSet<Notification> getNotifications() {
+    public List<Notification> getNotifications() {
         return notifications;
     }
 
-    public void setNotifications(SortedSet<Notification> notifications) {
+    public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
     }
 
-    public PriorityQueue<Chat> getChats() {
+    public List<String> getChats() {
         return chats;
     }
 
-    public void setChats(PriorityQueue<Chat> chats) {
+    public void setChats(List<String> chats) {
         this.chats = chats;
     }
 
@@ -74,9 +62,9 @@ public class User implements Serializable {
         this.urlProfilePicture = urlProfilePicture;
     }
 
-    public User(String name, String userName, String status, String urlProfilePicture, SortedSet<Match> matcheses, TreeSet<FriendGUI> friends, SortedSet<Notification> notifications, PriorityQueue<Chat> chats) {
-        this.name = name;
-        this.userName = userName;
+    public User(String name, String userName, String status, String urlProfilePicture, List<String> matcheses, List<String> friends, List<Notification> notifications, List<String> chats) {
+        this.userName = name;
+        this.userID = userName;
         this.status = status;
         this.urlProfilePicture = urlProfilePicture;
         this.matcheses = matcheses;
@@ -85,21 +73,21 @@ public class User implements Serializable {
         this.chats = chats;
     }
 
-    public void setUserName(String userName){
-        this.userName = userName;
+    public void setUserID(String userID){
+        this.userID = userID;
     }
 
 
     public String getName() {
-        return name;
+        return userName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.userName = name;
     }
 
-    public String getUserName(){
-        return userName;
+    public String getUserID(){
+        return userID;
     }
 
     public String getStatus() {
@@ -110,11 +98,11 @@ public class User implements Serializable {
         this.status = status;
     }
 
-    public SortedSet<Match> getMatcheses() {
+    public List<String> getMatcheses() {
         return matcheses;
     }
 
-    public boolean addMatch (Match match){
+    public boolean addMatch (String match){
         if(matcheses.contains(match)){
             return false;
         }
@@ -122,17 +110,10 @@ public class User implements Serializable {
         return true;
     }
 
-    public boolean removeMatch (Match match){
-        if(matcheses.contains(match)){
-            matcheses.remove(match);
-            return true;
-        }
-        return false;
-    }
 
-    public boolean removeMatch(String name){
-        for(Match m: matcheses){
-            if(m.getName().equals(name)){
+    public boolean removeMatch(String match){
+        for(String m: matcheses){
+            if(m.equals(match)){
                 matcheses.remove(m);
                 return true;
             }
@@ -140,11 +121,11 @@ public class User implements Serializable {
         return false;
     }
 
-    public SortedSet<FriendGUI> getFriends() {
+    public List<String> getFriends() {
         return friends;
     }
 
-    public boolean addFriend (FriendGUI friend){
+    public boolean addFriend (String friend){
         if(friends.contains(friend)){
             return false;
         }
@@ -172,13 +153,13 @@ public class User implements Serializable {
 
         User user = (User) o;
 
-        return userName.equals(user.getUserName());
+        return userID.equals(user.getUserID());
 
     }
 
     @Override
     public int hashCode() {
-        return userName.hashCode();
+        return userID.hashCode();
     }
 
     @Override
@@ -186,27 +167,5 @@ public class User implements Serializable {
         return userName;
 
     }
-
-    public UserGUI getGUI(){
-        SortedSet<MatchGUI> matchesGUI = new TreeSet<MatchGUI>();
-        for (Match m: matcheses){
-            matchesGUI.add(m.getGUI());
-        }
-        SortedSet<NotificationGUI> notificationsGUI = new TreeSet<NotificationGUI>();
-        for (Notification n: notifications){
-            notificationsGUI.add(n.getGUI());
-        }
-        try {
-            return new UserGUI(name, userName, status,new URL(urlProfilePicture),matchesGUI, friends,notificationsGUI, chats);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
-
-
-
 
 }

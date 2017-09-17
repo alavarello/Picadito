@@ -13,8 +13,8 @@ import com.picadito.picadito.Activities.Displayers.MatchesDisplayable;
 import com.picadito.picadito.Activities.Fragments.FriendFragment;
 import com.picadito.picadito.Activities.Fragments.FriendMatchesFragment;
 import com.picadito.picadito.Activities.Fragments.FriendsFragment;
-import com.picadito.picadito.GUI.FriendGUI;
-import com.picadito.picadito.GUI.MatchGUI;
+import com.picadito.picadito.Model.Friend;
+import com.picadito.picadito.Model.Match;
 import com.picadito.picadito.R;
 
 import java.util.ArrayList;
@@ -26,14 +26,14 @@ public class FriendMainActivity extends AppCompatActivity implements FriendsDisp
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-    private FriendGUI friendGUI;
+    private Friend friend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_main);
 
-        friendGUI = (FriendGUI) getIntent().getSerializableExtra("friend");
+        friend = (Friend) getIntent().getSerializableExtra("friend");
 
         mSectionsPagerAdapter = new FriendMainActivity.SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R .id.friendMainActivity_containerViewPager);
@@ -55,17 +55,17 @@ public class FriendMainActivity extends AppCompatActivity implements FriendsDisp
     }
 
     @Override
-    public SortedSet<FriendGUI> getFriends() {
-        return friendGUI.getFriends();
+    public List<String> getFriends() {
+        return friend.getFriends();
     }
 
-    public FriendGUI getFriendGUI(){
-        return friendGUI;
+    public Friend getFriend(){
+        return friend;
     }
 
     @Override
-    public SortedSet<MatchGUI> getMatches() {
-        return friendGUI.getMatcheses();
+    public SortedSet<Match> getMatches() {
+        return friend.getMatcheses();
     }
 
 

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.picadito.picadito.Activities.EightMatchActivity;
 import com.picadito.picadito.Activities.SixMatchActivity;
-import com.picadito.picadito.GUI.MatchGUI;
+import com.picadito.picadito.Model.Match;
 import com.picadito.picadito.R;
 
 import java.io.Serializable;
@@ -24,7 +24,7 @@ import java.util.SortedSet;
 public class MatchesDisplayer {
     Activity matchesActivity;
     LinearLayout matchesLayout;
-    SortedSet<MatchGUI> matches;
+    SortedSet<Match> matches;
 
     public MatchesDisplayer(Activity matchesActivity, LinearLayout layout) {
         this.matchesActivity =  matchesActivity;
@@ -46,7 +46,7 @@ public class MatchesDisplayer {
             int width = metrics.widthPixels;
             int height = metrics.heightPixels;
             LayoutInflater inflater = (LayoutInflater) matchesActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            for (final MatchGUI match : matches) {
+            for (final Match match : matches) {
                 View customView = inflater.inflate(R.layout.matchesbutton_layout, null);
                 LinearLayout matchLayout = (LinearLayout) customView.findViewById(R.id.matchesButtonLayout_mainLinearLayout);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -63,12 +63,12 @@ public class MatchesDisplayer {
                 matchLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(match.getTeam1().getTeamSize() == 6){
+                        if(match.getNumberOfPlayers() == 6){
                             Intent intent = new Intent(matchesActivity.getApplicationContext(), SixMatchActivity.class);
                             intent.putExtra("match", (Serializable) ((MatchesDisplayable) matchesActivity).getMatches());
                             matchesActivity.startActivity(intent);
                         }
-                        if(match.getTeam1().getTeamSize() == 9){
+                        if(match.getNumberOfPlayers() == 9){
                             Intent intent = new Intent(matchesActivity.getApplicationContext(), EightMatchActivity.class);
                             intent.putExtra("match", (Serializable) ((MatchesDisplayable) matchesActivity).getMatches());
                             matchesActivity.startActivity(intent);
